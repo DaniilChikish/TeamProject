@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusyManager", "BusyManager\BusyManager.csproj", "{503D1F21-E441-413B-8A52-70EE58DB773E}"
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject1", "ModelingProject1\ModelingProject1.modelproj", "{6A25A690-4B8B-4323-8F20-77E4EE653299}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{503D1F21-E441-413B-8A52-70EE58DB773E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{503D1F21-E441-413B-8A52-70EE58DB773E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{503D1F21-E441-413B-8A52-70EE58DB773E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A25A690-4B8B-4323-8F20-77E4EE653299}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A25A690-4B8B-4323-8F20-77E4EE653299}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A25A690-4B8B-4323-8F20-77E4EE653299}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A25A690-4B8B-4323-8F20-77E4EE653299}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

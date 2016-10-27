@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel"
+  dslVersion="1.0.0.0"
+  Id="8ba40535-4f76-4da0-aaf2-172680fb16ea"
+  name="ModelingProject1" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="429fd5b0-4b6d-451d-a904-6210d01111bc">
+      <body>Clients are not allowed to delete.</body>
+      <annotatedElements>
+        <useCaseMoniker
+          Id="e2f86b60-5ee9-472c-b718-bb05ba87ec37"
+          LastKnownName="Change exist client data"
+          LastKnownLocation="ModelingProject1.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="dd748e30-5447-4010-ad5e-06ac55075b7f">
+      <body>in status calendar</body>
+      <annotatedElements>
+        <useCaseMoniker
+          Id="f4743783-cfc7-4ffb-959b-ea1450186134"
+          LastKnownName="Check future status"
+          LastKnownLocation="ModelingProject1.uml" />
+        <useCaseMoniker
+          Id="f756c5bd-87a2-4efc-bf89-f8c11894eccb"
+          LastKnownName="Change future status"
+          LastKnownLocation="ModelingProject1.uml" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <actor
+        Id="681c35ed-b803-4677-8063-30dff1c8d14d"
+        name="Operator"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="51551aa1-fb75-4784-9417-78c3ada1384c"
+            isDerived="false"
+            sourceEndRoleName="Actor1"
+            targetEndRoleName="Save/Load database"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="bd57c36c-8110-425c-b5fe-82ac2888a51b"
+              LastKnownName="Save/Load database"
+              LastKnownLocation="ModelingProject1.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="cfee93fb-8e79-44d1-846e-0dd1779c39d0"
+                  name="Actor1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d7e6e3a2-837d-4ded-82e7-290af85ae4cc"
+                  name="Save/Load database"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="63d9eaa0-acf0-47c0-a30c-58d92a7fd57c"
+            isDerived="false"
+            sourceEndRoleName="Actor1"
+            targetEndRoleName="Check objects"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="3736e348-3bb6-4fe4-b5ae-0ce4bf55b711"
+              LastKnownName="Check objects"
+              LastKnownLocation="ModelingProject1.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e24a2a26-2548-41f1-afb1-6ab8b388703c"
+                  name="Actor1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2dfd0bd3-3516-4ed1-9672-e17f516e57f8"
+                  name="Check objects"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="49047360-b5fb-49aa-8c84-51803ab3567d"
+            isDerived="false"
+            sourceEndRoleName="Actor1"
+            targetEndRoleName="Change object status"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="ed8aafec-5bdd-4f1c-84c4-a0584003e0b5"
+              LastKnownName="Change object status"
+              LastKnownLocation="ModelingProject1.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="a3cec42e-f834-4a28-b0fa-50869a3b651c"
+                  name="Actor1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e89064c8-0534-4db7-8bec-4f62f1856fa9"
+                  name="Change object status"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="b1645e5a-1b21-4c70-a167-53cf366af30d"
+            isDerived="false"
+            sourceEndRoleName="Actor1"
+            targetEndRoleName="Add client in database"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="60690031-15fe-4ef3-bc35-f8667b096e4f"
+              LastKnownName="Add client in database"
+              LastKnownLocation="ModelingProject1.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9f9b59da-96fd-49fd-8ffe-c29c8087001a"
+                  name="Actor1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d38c68c4-85fa-4b8e-aa4d-71e0e39cee47"
+                  name="Add client in database"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="a397924f-28b7-4643-816a-bd1c773bcf78"
+            isDerived="false"
+            sourceEndRoleName="Actor1"
+            targetEndRoleName="Change objects pane"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="8182203d-f5ec-460e-92a6-d90e60631c2f"
+              LastKnownName="Change objects pane"
+              LastKnownLocation="ModelingProject1.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="df512004-5511-4457-81a7-185eb6363422"
+                  name="Actor1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="545531ad-eeee-447d-8f8b-a61d25ded5a4"
+                  name="Change objects pane"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="3736e348-3bb6-4fe4-b5ae-0ce4bf55b711"
+        name="Check objects"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="ed8aafec-5bdd-4f1c-84c4-a0584003e0b5"
+        name="Change object status"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="bd57c36c-8110-425c-b5fe-82ac2888a51b"
+        name="Save/Load database"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="f756c5bd-87a2-4efc-bf89-f8c11894eccb"
+        name="Change future status"
+        isAbstract="false"
+        isLeaf="false">
+        <extendedCases>
+          <extend
+            Id="3833ad76-2976-4d7f-81a0-552ff2f3227c">
+            <useCaseMoniker
+              Id="ed8aafec-5bdd-4f1c-84c4-a0584003e0b5"
+              LastKnownName="Change object status"
+              LastKnownLocation="ModelingProject1.uml" />
+          </extend>
+        </extendedCases>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="f4743783-cfc7-4ffb-959b-ea1450186134"
+        name="Check future status"
+        isAbstract="false"
+        isLeaf="false">
+        <extendedCases>
+          <extend
+            Id="2634b034-5bdc-45c6-8f29-f4a2069c0b15">
+            <useCaseMoniker
+              Id="3736e348-3bb6-4fe4-b5ae-0ce4bf55b711"
+              LastKnownName="Check objects"
+              LastKnownLocation="ModelingProject1.uml" />
+          </extend>
+        </extendedCases>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="60690031-15fe-4ef3-bc35-f8667b096e4f"
+        name="Add client in database"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="e2f86b60-5ee9-472c-b718-bb05ba87ec37"
+        name="Change exist client data"
+        isAbstract="false"
+        isLeaf="false">
+        <extendedCases>
+          <extend
+            Id="bb8f59f4-22cf-4b9b-ad54-cf19bc035386">
+            <useCaseMoniker
+              Id="60690031-15fe-4ef3-bc35-f8667b096e4f"
+              LastKnownName="Add client in database"
+              LastKnownLocation="ModelingProject1.uml" />
+          </extend>
+        </extendedCases>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="8182203d-f5ec-460e-92a6-d90e60631c2f"
+        name="Change objects pane"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="0d724708-278f-4a1e-b764-3e88b8a881d0"
+        name="Create object"
+        isAbstract="false"
+        isLeaf="false">
+        <extendedCases>
+          <extend
+            Id="dd7588cb-6ad3-4d58-882b-0484ad040792">
+            <useCaseMoniker
+              Id="8182203d-f5ec-460e-92a6-d90e60631c2f"
+              LastKnownName="Change objects pane"
+              LastKnownLocation="ModelingProject1.uml" />
+          </extend>
+        </extendedCases>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="20297ad3-2dc8-41d5-85d7-47dd2f75ec08"
+        name="Delete object"
+        isAbstract="false"
+        isLeaf="false">
+        <extendedCases>
+          <extend
+            Id="d314b11a-ba02-424d-bed4-6e73b689d743">
+            <useCaseMoniker
+              Id="8182203d-f5ec-460e-92a6-d90e60631c2f"
+              LastKnownName="Change objects pane"
+              LastKnownLocation="ModelingProject1.uml" />
+          </extend>
+        </extendedCases>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="740fd3b6-6c19-4828-87e5-08c046f971e6"
+        name="Customer"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="33d245a4-928a-4048-a0ae-42b4ba3773d0"
+            isDerived="false"
+            sourceEndRoleName="Customer"
+            targetEndRoleName="Check objects"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="3736e348-3bb6-4fe4-b5ae-0ce4bf55b711"
+              LastKnownName="Check objects"
+              LastKnownLocation="ModelingProject1.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3a5a9c87-b51d-408f-bd20-00e4526134ef"
+                  name="Customer"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="cf0efcf7-0ce6-4fb5-8a21-5f7596b0dfdc"
+                  name="Check objects"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>
