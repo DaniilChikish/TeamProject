@@ -5,8 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BusyManager"
         mc:Ignorable="d"
-        Title="BusyManager" Height="350" Width="525">
+        Title="BusyManager" Height="800" Width="1000">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="714*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+        <StatusBar HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto" Grid.Row="2"/>
+        <TabControl x:Name="tabControl" Height="Auto" Width="Auto" Grid.Row="1">
+            <TabItem x:Name="CalendarTab" Header="Calendar">
+                <Grid Background="#FFE5E5E5">
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="MapTab" Header="Map">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="180"/>
+                    </Grid.ColumnDefinitions>
+                    <ToolBarPanel Height="Auto" Width="Auto" Grid.Column="1">
+                        <Calendar x:Name="MapCalendar" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" SelectedDatesChanged="MapCalendar_OnSelectedDatesChanged"/>
+                        <DatePicker x:Name="MapDatePicker" HorizontalAlignment="Left" Width="180" SelectedDateChanged="MapCalendar_OnSelectedDatesChanged"/>
+                        <Button x:Name="AddObjectButton" Content="Button" Width="180" Click="AddObjectButton_Click"/>
+                    </ToolBarPanel>
+                    <Grid x:Name="MapGrid" Height="Auto" Width="Auto" Background="#FFCEFFAB" Margin="0">
+                        <Rectangle x:Name="Object0Body" Fill="LightGreen" HorizontalAlignment="Left" Height="48" Margin="10,10,0,0" RadiusY="16" RadiusX="16" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+                        <Label x:Name="Object0Label" Content="Object0 (Free)" VerticalAlignment="Top" Margin="{Binding Margin, ElementName=Object0Body}" Width="{Binding ActualWidth, ElementName=Object0Body}" Height="{Binding ActualHeight, ElementName=Object0Body}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                        <Rectangle x:Name="Object1Body" Fill="Red" HorizontalAlignment="Left" Height="48" Margin="134,10,0,0" RadiusY="16" RadiusX="16" Stroke="Black" VerticalAlignment="Top" Width="100"/>
+                        <Label x:Name="Object1Label" Content="Object1 (Busy)" VerticalAlignment="Top" Margin="{Binding Margin, ElementName=Object1Body}" Width="{Binding ActualWidth, ElementName=Object1Body}" Height="{Binding ActualHeight, ElementName=Object1Body}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="DataBaseTab" Header="DataBase">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <Menu x:Name="menu" Height="Auto" Width="Auto">
+            <Button Height="26" Width="70" Content="File"/>
+            <Button Height="26" Width="70" Content="Options"/>
+        </Menu>
+
     </Grid>
 </Window>

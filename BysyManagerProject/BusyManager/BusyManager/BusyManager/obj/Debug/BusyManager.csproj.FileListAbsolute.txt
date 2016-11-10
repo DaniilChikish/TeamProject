@@ -1,2 +1,16 @@
 E:\PortableData\LabWorks\Program engeniring\Project\BusyManager\BusyManager\BusyManager\bin\Debug\BusyManager.exe.config
 E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\bin\Debug\BusyManager.exe.config
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\bin\Debug\BusyManager.exe.config
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\bin\Debug\BusyManager.exe
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\bin\Debug\BusyManager.pdb
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.csprojResolveAssemblyReference.cache
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\MainWindow.g.cs
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\App.g.cs
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager_MarkupCompile.cache
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager_MarkupCompile.lref
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\MainWindow.baml
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.g.resources
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.Properties.Resources.resources
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.csproj.GenerateResource.Cache
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.exe
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.pdb
