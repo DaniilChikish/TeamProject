@@ -14,3 +14,16 @@ D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\Bu
 D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.csproj.GenerateResource.Cache
 D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.exe
 D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.pdb
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.exe
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.pdb
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\bin\Debug\BusyManager.exe
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\bin\Debug\BusyManager.pdb
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.csprojResolveAssemblyReference.cache
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\MainWindow.g.cs
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\App.g.cs
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager_MarkupCompile.cache
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager_MarkupCompile.lref
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\MainWindow.baml
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.g.resources
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.Properties.Resources.resources
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.csproj.GenerateResource.Cache

@@ -21,32 +21,42 @@
                 <Grid Background="#FFE5E5E5">
                 </Grid>
             </TabItem>
-            <TabItem x:Name="MapTab" Header="Map">
+            <TabItem x:Name="MapTab" Header="Map" Width="65" Initialized="MapTab_OnInitialized">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="180"/>
                     </Grid.ColumnDefinitions>
                     <ToolBarPanel Height="Auto" Width="Auto" Grid.Column="1">
-                        <Calendar x:Name="MapCalendar" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" SelectedDatesChanged="MapCalendar_OnSelectedDatesChanged"/>
                         <DatePicker x:Name="MapDatePicker" HorizontalAlignment="Left" Width="180" SelectedDateChanged="MapCalendar_OnSelectedDatesChanged"/>
-                        <Button x:Name="AddObjectButton" Content="Button" Width="180" Click="AddObjectButton_Click"/>
+                        <Button x:Name="ChangeObjectButton" Content="Change Objects" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30,0,0" Width="170" Click="ChangeObjectButton_Click"/>
+                        <GroupBox x:Name="MapToolBox" Header="Tool" HorizontalAlignment="Left" Width="180" Height="200" Margin="0,5,0,0" Visibility="Hidden">
+                            <Grid>
+                                <ComboBox x:Name="MapComboBox" HorizontalAlignment="Center" Margin="5,10,5,0" VerticalAlignment="Top" Width="158">
+                                    <ComboBoxItem Content="New Object"/>
+                                </ComboBox>
+                                <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="5,150,0,5" VerticalAlignment="Bottom" Width="75" Click="SaveButton_Click"/>
+                                <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Right" Margin="0,150,5,5" VerticalAlignment="Bottom" Width="75"/>
+                                <Label x:Name="label" Content="Name:" HorizontalAlignment="Left" Margin="5,37,0,0" VerticalAlignment="Top"/>
+                                <TextBox x:Name="ObjectNameBox" HorizontalAlignment="Left" Height="23" Margin="54,39,0,0" TextWrapping="Wrap" Text="Target" VerticalAlignment="Top" Width="109" SpellCheck.IsEnabled="True"/>
+                                <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="78" Margin="5,68,0,0" TextWrapping="Wrap" Text="Properties" VerticalAlignment="Top" Width="158"/>
+                            </Grid>
+
+                        </GroupBox>
                     </ToolBarPanel>
-                    <Grid x:Name="MapGrid" Height="Auto" Width="Auto" Background="#FFCEFFAB" Margin="0">
-                        <Rectangle x:Name="Object0Body" Fill="LightGreen" HorizontalAlignment="Left" Height="48" Margin="10,10,0,0" RadiusY="16" RadiusX="16" Stroke="Black" VerticalAlignment="Top" Width="100"/>
-                        <Label x:Name="Object0Label" Content="Object0 (Free)" VerticalAlignment="Top" Margin="{Binding Margin, ElementName=Object0Body}" Width="{Binding ActualWidth, ElementName=Object0Body}" Height="{Binding ActualHeight, ElementName=Object0Body}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
-                        <Rectangle x:Name="Object1Body" Fill="Red" HorizontalAlignment="Left" Height="48" Margin="134,10,0,0" RadiusY="16" RadiusX="16" Stroke="Black" VerticalAlignment="Top" Width="100"/>
-                        <Label x:Name="Object1Label" Content="Object1 (Busy)" VerticalAlignment="Top" Margin="{Binding Margin, ElementName=Object1Body}" Width="{Binding ActualWidth, ElementName=Object1Body}" Height="{Binding ActualHeight, ElementName=Object1Body}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                    <Grid x:Name="MapGrid" Height="Auto" Width="Auto" Background="#FFCEFFAB" Margin="0" MouseDown="TargetObject_MoveStart" MouseMove="TargetObject_Move" MouseUp="TargetObject_MoveEnd">
+                        <Rectangle x:Name="ObjectPrefabBody" Visibility="Hidden" Fill="LightGreen" HorizontalAlignment="Left" Margin="{Binding Margin, ElementName=ObjectPrefabLabel}" Width="{Binding ActualWidth, ElementName=ObjectPrefabLabel}" Height="{Binding ActualHeight, ElementName=ObjectPrefabLabel}" RadiusY="16" RadiusX="16" Stroke="Black" VerticalAlignment="Top"/>
+                        <Label x:Name="ObjectPrefabLabel" Visibility="Hidden" Content="ObjectPrefab" VerticalAlignment="Top" Margin="10,10,0,0" Width="100" Height="48"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" />
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="DataBaseTab" Header="DataBase">
+            <TabItem x:Name="DataBaseTab" Header="DataBase" Width="65">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
         <Menu x:Name="menu" Height="Auto" Width="Auto">
-            <Button Height="26" Width="70" Content="File"/>
-            <Button Height="26" Width="70" Content="Options"/>
+            <Button Height="24" Width="70" Content="File"/>
+            <Button Height="24" Width="70" Content="Options"/>
         </Menu>
 
     </Grid>
