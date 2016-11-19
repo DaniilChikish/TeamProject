@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusyManager
 {
-    enum TargetObjectState { Free, Busy, Available, notAvailable, Maintenance }
-    class TargetObject
+    public enum TargetObjectState { Free, Busy, Available, notAvailable, Maintenance }
+    public class TargetObject
     {
         public const TargetObjectState DefaultState = TargetObjectState.Available;
         private string idname;
@@ -142,8 +142,35 @@ namespace BusyManager
             }
             else return false;
         }
+        public TargetObjectState GetState(DateTime date)
+        {
+            Stack<TargetTimeState> buffer = new Stack<TargetTimeState>();
+            bool Achieved = false;
+            TargetObjectState output = DefaultState;
+            while (StateChangesList.Count > 0 && !Achieved)
+            {
+                if (StateChangesList.Peek().End > date)
+                {
+                    if (StateChangesList.Peek().Begin > date)
+                        buffer.Push(StateChangesList.Pop());
+                    else
+                    {
+                        Achieved = true;
+                        output = StateChangesList.Peek().State;
+                    }
+                }
+                else
+                {
+                    Achieved = true;
+                    output = DefaultState;
+                }
+            }
+            while (buffer.Count > 0)
+                StateChangesList.Push(buffer.Pop());
+            return output;
+        }
     }
-    class TargetTimeState
+    public class TargetTimeState
     {
         private TargetObjectState state;
         private DateTime begin;

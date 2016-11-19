@@ -16,49 +16,89 @@ namespace BusyManager
         public MainWindow()
         {
             InitializeComponent();
-            MapComboBox.SelectedItem = MapComboBox.Items[0];
+            try
+            {
+                TargetObjects = Cryptor.LoadData(FilePath).ReturnContent();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("FileOpenError");
+                TargetObjects = new List<TargetObject>();
+            }
+
+            MapComboBoxUpload();
         }
 
-        //MapTab
+        //main
         List<TargetObject> TargetObjects;
+        public string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BusyManager";
+        public string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BusyManager\\crypt.dat";
+        //MapTab
         private bool TargetOnMove = false;
         private bool ChangeAllow = false;
         private double deltaX;
         private double deltaY;
         Label MovedLab;
         Rectangle MovedObj;
-        private List<object> hitResultsList =new List<object>();
+        private List<object> hitResultsList = new List<object>();
 
-        private void MapCalendar_OnSelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        private void MapDatePicker_OnSelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show("OnSelectedDatesChanged_OK");
+            DrawingObjects((DateTime)MapDatePicker.SelectedDate);
         }
 
-        private void MapTab_OnInitialized(object sender, EventArgs e)
+        private void DrawingObjects(DateTime date)
         {
-            DrawingObjects();
+                foreach (TargetObject item in TargetObjects)
+                {
+                    CreateObjectOnMap(item.IDName, item.GetState(date), item.Margin);
+                }
         }
 
-        private void DrawingObjects()
-        {
-
-        }
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private void SaveObjectsButton_Click(object sender, RoutedEventArgs e)
         {
             if ((string)((ComboBoxItem)MapComboBox.SelectedItem).Content == "New Object")
-                CreateObject();
+            {
+                //interface
+                CreateObjectOnMap(ObjectNameBox.Text, TargetObjectState.Available, new Thickness(30, 30, 0, 0));
+                //data
+                TargetObjects.Add(new TargetObject(ObjectNameBox.Text, ObjectPropertiesBox.Text, new Thickness(30, 30, 0, 0)));
+            }
+            else
+            {
+
+            }
         }
 
-        private void CreateObject()
+        private void CreateObjectOnMap(string name, TargetObjectState state, Thickness margin)
         {
+
             Rectangle newObject = DuplicatePrefab(ObjectPrefabBody);
-            newObject.Name = (ObjectNameBox.Text+"_body");
+            newObject.Name = (name);
+            newObject.Margin = margin;
             newObject.Visibility = Visibility.Visible;
 
             Label newLabel = DuplicatePrefab(ObjectPrefabLabel);
-            newLabel.Name = (ObjectNameBox.Text + "_label");
-            newLabel.Content = (ObjectNameBox.Text + "(free)(new)");
+            newLabel.Name = (name + "_label");
+            switch (state)
+            {
+                case TargetObjectState.Available:
+                    newLabel.Content = (name + "(Available)");
+                    break;
+                case TargetObjectState.Busy:
+                    newLabel.Content = (name + "(Bysy)");
+                    break;
+                case TargetObjectState.Free:
+                    newLabel.Content = (name + "(Free)");
+                    break;
+                case TargetObjectState.Maintenance:
+                    newLabel.Content = (name + "(Maintanence)");
+                    break;
+                case TargetObjectState.notAvailable:
+                    newLabel.Content = (name + "(notAvailable)");
+                    break;
+            }
+            newLabel.Margin = margin;
             newLabel.Visibility = Visibility.Visible;
 
             MapGrid.Children.Add(newObject);
@@ -117,27 +157,39 @@ namespace BusyManager
             // Set the behavior to return visuals at all z-order levels.
             return System.Windows.Media.HitTestResultBehavior.Continue;
         }
-
         private void TargetObject_Move(object sender, MouseEventArgs e)
         {
-            if (ChangeAllow&&TargetOnMove)
+            if (ChangeAllow && TargetOnMove)
             {
                 MovedObj.Margin = new Thickness(e.GetPosition(this.MapGrid).X - deltaX, e.GetPosition(this.MapGrid).Y - deltaY, 0, 0);
                 MovedLab.Margin = new Thickness(e.GetPosition(this.MapGrid).X - deltaX, e.GetPosition(this.MapGrid).Y - deltaY, 0, 0);
             }
         }
-
         private void TargetObject_MoveEnd(object sender, MouseButtonEventArgs e)
         {
             if (ChangeAllow)
             {
                 this.Cursor = Cursors.Arrow;
-                //Save changes
-                //Rectangle rect = (Rectangle)sender;
-                //deltaX = e.GetPosition(this.MapGrid).X - rect.Margin.Left;
-                //deltaY = e.GetPosition(this.MapGrid).Y - rect.Margin.Top;
                 TargetOnMove = false;
+                //Save changes
+                TargetObjects.Find(x => x.IDName == MovedObj.Name).Margin = MovedObj.Margin;
+                MapComboBoxUpload();
             }
+        }
+
+        private void MapComboBoxUpload()
+        {
+            MapComboBox.Items.Clear();
+            ComboBoxItem newObj = new ComboBoxItem();
+            newObj.Content = "New Object";
+            MapComboBox.Items.Add(newObj);
+                foreach (TargetObject item in TargetObjects)
+                {
+                    newObj = new ComboBoxItem();
+                    newObj.Content = item.IDName;
+                    MapComboBox.Items.Add(newObj);
+                }
+            MapComboBox.SelectedItem = MapComboBox.Items[0];
         }
 
         private void ChangeObjectButton_Click(object sender, RoutedEventArgs e)
@@ -154,6 +206,16 @@ namespace BusyManager
                 MapToolBox.Visibility = Visibility.Hidden;
                 ChangeObjectButton.Content = "Change Objects";
             }
+        }
+
+        private void SaveDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            Cryptor.SaveData(new TargetObjectsContainer<TargetObject>(TargetObjects), "default", DirPath, FilePath);
+        }
+
+        private void MapTab_Loaded(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("MapTab_Loaded");
         }
     }
 }

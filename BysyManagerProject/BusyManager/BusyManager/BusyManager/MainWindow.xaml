@@ -21,25 +21,25 @@
                 <Grid Background="#FFE5E5E5">
                 </Grid>
             </TabItem>
-            <TabItem x:Name="MapTab" Header="Map" Width="65" Initialized="MapTab_OnInitialized">
+            <TabItem x:Name="MapTab" Header="Map" Width="65" Loaded="MapTab_Loaded">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="180"/>
                     </Grid.ColumnDefinitions>
                     <ToolBarPanel Height="Auto" Width="Auto" Grid.Column="1">
-                        <DatePicker x:Name="MapDatePicker" HorizontalAlignment="Left" Width="180" SelectedDateChanged="MapCalendar_OnSelectedDatesChanged"/>
+                        <DatePicker x:Name="MapDatePicker" HorizontalAlignment="Left" Width="180" SelectedDateChanged="MapDatePicker_OnSelectedDatesChanged"/>
                         <Button x:Name="ChangeObjectButton" Content="Change Objects" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30,0,0" Width="170" Click="ChangeObjectButton_Click"/>
                         <GroupBox x:Name="MapToolBox" Header="Tool" HorizontalAlignment="Left" Width="180" Height="200" Margin="0,5,0,0" Visibility="Hidden">
                             <Grid>
                                 <ComboBox x:Name="MapComboBox" HorizontalAlignment="Center" Margin="5,10,5,0" VerticalAlignment="Top" Width="158">
                                     <ComboBoxItem Content="New Object"/>
                                 </ComboBox>
-                                <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="5,150,0,5" VerticalAlignment="Bottom" Width="75" Click="SaveButton_Click"/>
+                                <Button x:Name="SaveObjectsButton" Content="Save" HorizontalAlignment="Left" Margin="5,150,0,5" VerticalAlignment="Bottom" Width="75" Click="SaveObjectsButton_Click"/>
                                 <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Right" Margin="0,150,5,5" VerticalAlignment="Bottom" Width="75"/>
                                 <Label x:Name="label" Content="Name:" HorizontalAlignment="Left" Margin="5,37,0,0" VerticalAlignment="Top"/>
                                 <TextBox x:Name="ObjectNameBox" HorizontalAlignment="Left" Height="23" Margin="54,39,0,0" TextWrapping="Wrap" Text="Target" VerticalAlignment="Top" Width="109" SpellCheck.IsEnabled="True"/>
-                                <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="78" Margin="5,68,0,0" TextWrapping="Wrap" Text="Properties" VerticalAlignment="Top" Width="158"/>
+                                <TextBox x:Name="ObjectPropertiesBox" HorizontalAlignment="Left" Height="78" Margin="5,68,0,0" TextWrapping="Wrap" Text="Properties" VerticalAlignment="Top" Width="158"/>
                             </Grid>
 
                         </GroupBox>
@@ -55,7 +55,7 @@
             </TabItem>
         </TabControl>
         <Menu x:Name="menu" Height="Auto" Width="Auto">
-            <Button Height="24" Width="70" Content="File"/>
+            <Button x:Name="SaveDataButton" Height="24" Width="70" Content="Save" Click="SaveDataButton_Click"/>
             <Button Height="24" Width="70" Content="Options"/>
         </Menu>
 
