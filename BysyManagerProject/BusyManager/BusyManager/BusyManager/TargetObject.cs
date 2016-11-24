@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace BusyManager
 {
+    [Serializable]
     public enum TargetObjectState { Free, Busy, Available, notAvailable, Maintenance }
     public class TargetObject
     {
         public const TargetObjectState DefaultState = TargetObjectState.Available;
         private string idname;
         public string IDName { get { return idname; } }
-        public Stack<TargetTimeState> StateChangesList;
+        private Stack<TargetTimeState> stateChangesList;
         public System.Windows.Thickness Margin { set; get; }
         public string Properties { set; get; }
         public TargetObject(string name, System.Windows.Thickness margin)
@@ -20,38 +21,38 @@ namespace BusyManager
             this.idname = name;
             this.Properties = "Simple object";
             this.Margin = margin;
-            StateChangesList = new Stack<TargetTimeState>();
+            stateChangesList = new Stack<TargetTimeState>();
         }
         public TargetObject(string name, string properties, System.Windows.Thickness margin)
         {
             this.idname = name;
             this.Properties = properties;
             this.Margin = margin;
-            StateChangesList = new Stack<TargetTimeState>();
+            stateChangesList = new Stack<TargetTimeState>();
         }
         public bool InsertChangeBrut(TargetTimeState change)
         {
             Stack<TargetTimeState> buffer = new Stack<TargetTimeState>();
             bool Achieved = false;
-            while (StateChangesList.Count > 0 && !Achieved)
+            while (stateChangesList.Count > 0 && !Achieved)
             {
-                if (StateChangesList.Peek().End > change.Begin)
-                    if (StateChangesList.Peek().Begin > change.Begin)
-                        buffer.Push(StateChangesList.Pop());
+                if (stateChangesList.Peek().End > change.Begin)
+                    if (stateChangesList.Peek().Begin > change.Begin)
+                        buffer.Push(stateChangesList.Pop());
                     else
                     {
-                        TargetTimeState previous = StateChangesList.Pop();
+                        TargetTimeState previous = stateChangesList.Pop();
                         if (buffer.Count > 0&&(buffer.Peek().Begin<change.End))
                         {
                             TargetTimeState next = buffer.Pop();
-                            StateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, change.Begin));
-                            StateChangesList.Push(change);
-                            StateChangesList.Push(new TargetTimeState(next.State, next.Customer, change.End, next.End));
+                            stateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, change.Begin));
+                            stateChangesList.Push(change);
+                            stateChangesList.Push(new TargetTimeState(next.State, next.Customer, change.End, next.End));
                         }
                         else
                         {
-                            StateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, change.Begin));
-                            StateChangesList.Push(change);
+                            stateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, change.Begin));
+                            stateChangesList.Push(change);
                         }
                         Achieved = true;
                     }
@@ -60,18 +61,18 @@ namespace BusyManager
                     if (buffer.Count > 0 && (buffer.Peek().Begin < change.End))
                     {
                         TargetTimeState next = buffer.Pop();
-                        StateChangesList.Push(change);
-                        StateChangesList.Push(new TargetTimeState(next.State, next.Customer, change.End, next.End));
+                        stateChangesList.Push(change);
+                        stateChangesList.Push(new TargetTimeState(next.State, next.Customer, change.End, next.End));
                     }
                     else
                     {
-                        StateChangesList.Push(change);
+                        stateChangesList.Push(change);
                     }
                     Achieved = true;
                 }
             }
             while (buffer.Count > 0)
-                StateChangesList.Push(buffer.Pop());
+                stateChangesList.Push(buffer.Pop());
             return true;
         }
         public bool InsertChangeOnFree(TargetTimeState change)
@@ -79,12 +80,12 @@ namespace BusyManager
             Stack<TargetTimeState> buffer = new Stack<TargetTimeState>();
             bool Achieved = false;
             bool Inserted = false;
-            while (StateChangesList.Count > 0 && !Achieved)
+            while (stateChangesList.Count > 0 && !Achieved)
             {
-                if (StateChangesList.Peek().End > change.Begin)
+                if (stateChangesList.Peek().End > change.Begin)
                 {
-                    if (StateChangesList.Peek().Begin > change.Begin)
-                        buffer.Push(StateChangesList.Pop());
+                    if (stateChangesList.Peek().Begin > change.Begin)
+                        buffer.Push(stateChangesList.Pop());
                     else
                         Achieved = true;
                 }
@@ -92,52 +93,71 @@ namespace BusyManager
                 {
                     if (buffer.Count < 1 || (buffer.Peek().Begin > change.End))
                     {
-                        StateChangesList.Push(change);
+                        stateChangesList.Push(change);
                         Achieved = true;
                         Inserted = true;
                     }
                 }
             }
             while (buffer.Count > 0)
-                StateChangesList.Push(buffer.Pop());
+                stateChangesList.Push(buffer.Pop());
             return Inserted;
         }
+
+
+
+        public bool ClearChanges()
+        {
+            stateChangesList.Clear();
+            return true;
+        }
+        public bool PushChanges(TargetTimeState change)
+        {
+            stateChangesList.Push(change);
+            return true;
+        }
+        //public bool FillStateChangesList(Stack<TargetTimeState> changes)
+        //{
+        //    this.StateChangesList.Clear();
+        //    this.StateChangesList.Concat(changes);
+        //    return true;
+        //}
         public bool ExpandCurent(TimeSpan period)
         {
-            if (StateChangesList.Count > 0)
+            if (stateChangesList.Count > 0)
             {
-                TargetTimeState previous = StateChangesList.Pop();
-                StateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, previous.End + period));
+                TargetTimeState previous = stateChangesList.Pop();
+                stateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, previous.End + period));
                 return true;
             }
             else return false;
         }
         public bool ChangeCurent(TargetObjectState newState)
         {
-            if (StateChangesList.Count > 0)
+            if (stateChangesList.Count > 0)
             {
-                TargetTimeState previous = StateChangesList.Pop();
-                StateChangesList.Push(new TargetTimeState(newState, previous.Customer, previous.Begin, previous.End));
+                TargetTimeState previous = stateChangesList.Pop();
+                stateChangesList.Push(new TargetTimeState(newState, previous.Customer, previous.Begin, previous.End));
                 return true;
             }
             else return false;
         }
         public bool AppendState(TargetObjectState newState, string customer, TimeSpan period)
         {
-            if (StateChangesList.Count > 0)
+            if (stateChangesList.Count > 0)
             {
-                TargetTimeState previous = StateChangesList.Peek();
-                StateChangesList.Push(new TargetTimeState(newState, customer, previous.End, period));
+                TargetTimeState previous = stateChangesList.Peek();
+                stateChangesList.Push(new TargetTimeState(newState, customer, previous.End, period));
                 return true;
             }
             else return false;
         }
         public bool AppendState(TargetObjectState newState, string customer, DateTime end)
         {
-            if (StateChangesList.Count > 0)
+            if (stateChangesList.Count > 0)
             {
-                TargetTimeState previous = StateChangesList.Peek();
-                StateChangesList.Push(new TargetTimeState(newState, customer, previous.End, end));
+                TargetTimeState previous = stateChangesList.Peek();
+                stateChangesList.Push(new TargetTimeState(newState, customer, previous.End, end));
                 return true;
             }
             else return false;
@@ -147,16 +167,16 @@ namespace BusyManager
             Stack<TargetTimeState> buffer = new Stack<TargetTimeState>();
             bool Achieved = false;
             TargetObjectState output = DefaultState;
-            while (StateChangesList.Count > 0 && !Achieved)
+            while (stateChangesList.Count > 0 && !Achieved)
             {
-                if (StateChangesList.Peek().End > date)
+                if (stateChangesList.Peek().End > date)
                 {
-                    if (StateChangesList.Peek().Begin > date)
-                        buffer.Push(StateChangesList.Pop());
+                    if (stateChangesList.Peek().Begin > date)
+                        buffer.Push(stateChangesList.Pop());
                     else
                     {
                         Achieved = true;
-                        output = StateChangesList.Peek().State;
+                        output = stateChangesList.Peek().State;
                     }
                 }
                 else
@@ -166,8 +186,16 @@ namespace BusyManager
                 }
             }
             while (buffer.Count > 0)
-                StateChangesList.Push(buffer.Pop());
+                stateChangesList.Push(buffer.Pop());
             return output;
+        }
+        public TargetTimeState[] GetAllChanges()
+        {
+            return stateChangesList.ToArray();
+        }
+        public void ChangeName(string name)
+        {
+            this.idname = name;
         }
     }
     public class TargetTimeState
@@ -176,7 +204,6 @@ namespace BusyManager
         private DateTime begin;
         private DateTime end;
         private string customer;
-
         public TargetTimeState(TargetObjectState state, string customer, DateTime end)
         {
             this.state = state;
@@ -210,5 +237,51 @@ namespace BusyManager
         public DateTime Begin { get { return begin; } }
         public DateTime End { get { return end; } }
         public TimeSpan Period { get { return end - begin; } }
+    }
+    [Serializable]
+    public class TargetObjectSer
+    {
+        public string idname;
+        public TargetTimeStateSer[] changes;
+        public System.Windows.Thickness margin;
+        public string properties;
+        public TargetObjectSer() { }
+        public TargetObjectSer(TargetObject toPack)
+        {
+            this.idname = toPack.IDName;
+            this.margin = toPack.Margin;
+            this.properties = toPack.Properties;
+            TargetTimeState[] buffer = toPack.GetAllChanges();
+            this.changes = new TargetTimeStateSer[buffer.Length];
+            for(int i = 0; i<buffer.Length;i++)
+                changes[i] = new TargetTimeStateSer(buffer[i]);
+        }
+        public TargetObject Unpack()
+        {
+            TargetObject outp = new TargetObject(idname, properties, margin);
+            for (int i = 0; i < changes.Length; i++)
+                outp.PushChanges(changes[i].Unpack());
+            return outp;
+        }
+    }
+    [Serializable]
+    public class TargetTimeStateSer
+    {
+        public TargetObjectState state;
+        public DateTime begin;
+        public DateTime end;
+        public string customer;
+        public TargetTimeStateSer() { }
+        public TargetTimeStateSer(TargetTimeState toPack)
+        {
+            this.state = toPack.State;
+            this.customer = toPack.Customer;
+            this.begin = toPack.Begin;
+            this.end = toPack.End;
+        }
+        public TargetTimeState Unpack()
+        {
+            return new TargetTimeState(this.state, this.customer, this.begin, this.end);
+        }
     }
 }

@@ -13,8 +13,9 @@ namespace BusyManager
 {
     public static class Cryptor
     {
+        const string DefaultFilePath = "crypt.dat";
         //const string sSecretKey = "#?;{??Y";
-        public static void SaveData(TargetObjectsContainer<TargetObject> Data, string CryptedString, string DirPath, string FilePath)
+        public static void SaveData(TargetObject[] Data, string CryptedString, string DirPath, string FilePath)
         {
             //create directory if not exist
             DirectoryInfo dir = new DirectoryInfo(DirPath);
@@ -31,34 +32,38 @@ namespace BusyManager
             //write key to file
             WriteKey(EncryptedKey, "crypt.key", App.DefaultCryptoKey);
             //serialise
-            XmlSerializer ser = new XmlSerializer(typeof(TargetObjectsContainer<TargetObject>));
-            MemoryStream writer = new MemoryStream();
-            ser.Serialize(writer, Data);
+            TargetObjectSer[] buffer = new TargetObjectSer[Data.Length];
+            for (int i = 0; i < buffer.Length; i++)
+                buffer[i] = new TargetObjectSer(Data[i]);
+            XmlSerializer formatter = new XmlSerializer(typeof(TargetObjectSer[]));
+            MemoryStream ms = new MemoryStream();
+            formatter.Serialize(ms, buffer);
             // Encrypt the file with key       
-            WriteFile(writer, FilePath, EncryptedKey);
-            //EncryptFile(writer, FilePath, EncryptedKey);
+            //WriteFile(ms, DefaultFilePath, EncryptedKey);
+            EncryptFile(ms, DefaultFilePath, EncryptedKey);
         }
-        public static TargetObjectsContainer<TargetObject> LoadData(string FilePath)
+        public static List<TargetObject> LoadData(string FilePath)
         {
             string Buffer = ReadKey("crypt.key", App.DefaultCryptoKey);
             string DecryptKey = "";
             for (int i = 0; i < 8; i++)
                 DecryptKey += Buffer[i];
 
-            XmlSerializer ser = new XmlSerializer(typeof(TargetObjectsContainer<TargetObject>));
+            XmlSerializer formatter = new XmlSerializer(typeof(TargetObjectSer[]));
 
             // A FileStream is needed to read the XML document.
-            //MemoryStream fs = DecryptFile(FilePath, DecryptKey);
-            MemoryStream fs = ReadFile(FilePath, DecryptKey);
-            XmlReader reader = XmlReader.Create(fs);
+            MemoryStream ms = DecryptFile(DefaultFilePath, DecryptKey);
+            //MemoryStream ms = ReadFile(DefaultFilePath, DecryptKey);
 
             // Declare an object variable of the type to be deserialized.
-            TargetObjectsContainer<TargetObject> data;
+            TargetObjectSer[] buffer;
 
             // Use the Deserialize method to restore the object's state.
-            data = (TargetObjectsContainer<TargetObject>)ser.Deserialize(reader);
-            fs.Close();
-
+            buffer = (TargetObjectSer[])formatter.Deserialize(ms);
+            ms.Close();
+            List<TargetObject> data = new List<TargetObject>();
+            foreach (TargetObjectSer item in buffer)
+                data.Add(item.Unpack());
             return data;
         }
         private static string ReadKey(string sInputFilename, string sKey)
@@ -151,24 +156,24 @@ namespace BusyManager
         }
     }
 
-    [Serializable]
-    public class TargetObjectsContainer<T> //where T : IEnumerable<T>
-    {
-        private List<T> Content;
-        public TargetObjectsContainer()
-        { }
-        public TargetObjectsContainer(List<T> contentList)
-        {
-            Content = new List<T>(contentList);
-        }
-        public void FillContent(List<T> contentList)
-        {
-            Content = new List<T>(contentList);
-        }
-        public List<T> ReturnContent()
-        {
-            return Content;
-        }
-    }
+    //[Serializable]
+    //public class TargetObjectsContainer<T> //where T : IEnumerable<T>
+    //{
+    //    public List<T> Content;
+    //    public TargetObjectsContainer()
+    //    { }
+    //    public TargetObjectsContainer(List<T> contentList)
+    //    {
+    //        Content = new List<T>(contentList);
+    //    }
+    //    public void FillContent(List<T> contentList)
+    //    {
+    //        Content = new List<T>(contentList);
+    //    }
+    //    public List<T> ReturnContent()
+    //    {
+    //        return Content;
+    //    }
+    //}
 }
 

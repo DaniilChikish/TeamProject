@@ -18,11 +18,13 @@ namespace BusyManager
             InitializeComponent();
             try
             {
-                TargetObjects = Cryptor.LoadData(FilePath).ReturnContent();
+                TargetObjects = new List<TargetObject>(Cryptor.LoadData(FilePath));
+                SetStatus("Loaded");
             }
             catch (Exception)
             {
-                MessageBox.Show("FileOpenError");
+                //MessageBox.Show("Valid saves not found.");
+                SetStatus("Valid saves not found.");
                 TargetObjects = new List<TargetObject>();
             }
 
@@ -33,6 +35,15 @@ namespace BusyManager
         List<TargetObject> TargetObjects;
         public string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BusyManager";
         public string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BusyManager\\crypt.dat";
+        public void SetStatus(string str)
+        {
+            this.StatusLabel.Content = str;
+        }
+        private void SaveDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            Cryptor.SaveData(TargetObjects.ToArray(), "default", DirPath, FilePath);
+            SetStatus("Saved");
+        }
         //MapTab
         private bool TargetOnMove = false;
         private bool ChangeAllow = false;
@@ -49,12 +60,24 @@ namespace BusyManager
 
         private void DrawingObjects(DateTime date)
         {
-                foreach (TargetObject item in TargetObjects)
+            foreach (TargetObject item in TargetObjects)
+            {
+                CreateObjectOnMap(item.IDName, item.GetState(date), item.Margin);
+            }
+        }
+        private void MapComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MapComboBox.Items.Count > 0)
+                if ((string)((ComboBoxItem)MapComboBox.SelectedItem).Content == "New Object")
                 {
-                    CreateObjectOnMap(item.IDName, item.GetState(date), item.Margin);
+                }
+                else
+                {
+                    TargetObject selected = TargetObjects.Find(x => x.IDName == (string)((ComboBoxItem)MapComboBox.SelectedItem).Content);
+                    ObjectNameBox.Text = selected.IDName;
+                    ObjectPropertiesBox.Text = selected.Properties;
                 }
         }
-
         private void SaveObjectsButton_Click(object sender, RoutedEventArgs e)
         {
             if ((string)((ComboBoxItem)MapComboBox.SelectedItem).Content == "New Object")
@@ -66,17 +89,47 @@ namespace BusyManager
             }
             else
             {
+                TargetObject selected = TargetObjects.Find(x => x.IDName == (string)((ComboBoxItem)MapComboBox.SelectedItem).Content);
+                RemoveObjectOnMap(selected);
+                selected.ChangeName(ObjectNameBox.Text);
+                selected.Properties = ObjectPropertiesBox.Text;
+                CreateObjectOnMap(selected.IDName, selected.GetState(DateTime.Now), selected.Margin);
+            }
+            MapComboBoxUpload();
+        }
 
+        private void RemoveObjectOnMap(TargetObject selected)
+        {
+            Label oldLabel;
+            Rectangle oldRect;
+            int i = 0;
+            while (i < MapGrid.Children.Count)
+            {
+                if (MapGrid.Children[i].ToString().Split(' ')[0] == "System.Windows.Controls.Label:")
+                {
+                    oldLabel = (Label)MapGrid.Children[i];
+                    if (oldLabel.Name == selected.IDName + "_label")
+                        MapGrid.Children.Remove(oldLabel);
+                    else i++;
+                }
+                else if (MapGrid.Children[i].ToString() == "System.Windows.Shapes.Rectangle")
+                {
+                    oldRect = (Rectangle)MapGrid.Children[i];
+                    if (oldRect.Name == selected.IDName + "_body")
+                        MapGrid.Children.Remove(oldRect);
+                    else i++;
+                }
+                else i++;
             }
         }
 
         private void CreateObjectOnMap(string name, TargetObjectState state, Thickness margin)
         {
 
-            Rectangle newObject = DuplicatePrefab(ObjectPrefabBody);
-            newObject.Name = (name);
-            newObject.Margin = margin;
-            newObject.Visibility = Visibility.Visible;
+            Rectangle newBody = DuplicatePrefab(ObjectPrefabBody);
+            newBody.Name = name + "_body";
+            newBody.Margin = margin;
+            newBody.Visibility = Visibility.Visible;
 
             Label newLabel = DuplicatePrefab(ObjectPrefabLabel);
             newLabel.Name = (name + "_label");
@@ -101,7 +154,7 @@ namespace BusyManager
             newLabel.Margin = margin;
             newLabel.Visibility = Visibility.Visible;
 
-            MapGrid.Children.Add(newObject);
+            MapGrid.Children.Add(newBody);
             MapGrid.Children.Add(newLabel);
         }
         public static T DuplicatePrefab<T>(T from)
@@ -114,7 +167,6 @@ namespace BusyManager
 
         private void TargetObject_MoveStart(object sender, MouseButtonEventArgs e)
         {
-
             if (ChangeAllow)
             {
                 // Retrieve the coordinate of the mouse position.
@@ -131,6 +183,8 @@ namespace BusyManager
                 // Perform actions on the hit test results list.
                 if (hitResultsList.Count > 0)
                 {
+                    if (hitResultsList[0].ToString() == "System.Windows.Controls.Grid")
+                        return;
                     if (hitResultsList[0].ToString() == "System.Windows.Controls.TextBlock")
                     {
                         MovedLab = (Label)(((Border)hitResultsList[1]).TemplatedParent);
@@ -167,13 +221,12 @@ namespace BusyManager
         }
         private void TargetObject_MoveEnd(object sender, MouseButtonEventArgs e)
         {
-            if (ChangeAllow)
+            if (ChangeAllow && TargetOnMove)
             {
                 this.Cursor = Cursors.Arrow;
                 TargetOnMove = false;
                 //Save changes
-                TargetObjects.Find(x => x.IDName == MovedObj.Name).Margin = MovedObj.Margin;
-                MapComboBoxUpload();
+                TargetObjects.Find(x => x.IDName == MovedObj.Name.Split('_')[0]).Margin = MovedObj.Margin;
             }
         }
 
@@ -208,14 +261,11 @@ namespace BusyManager
             }
         }
 
-        private void SaveDataButton_Click(object sender, RoutedEventArgs e)
-        {
-            Cryptor.SaveData(new TargetObjectsContainer<TargetObject>(TargetObjects), "default", DirPath, FilePath);
-        }
 
         private void MapTab_Loaded(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("MapTab_Loaded");
+            //MessageBox.Show("MapTab_Loaded");
+            DrawingObjects(DateTime.Now);
         }
     }
 }

@@ -9,13 +9,15 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="714*"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
-        <StatusBar HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto" Grid.Row="2"/>
+        <StatusBar x:Name="StatusBar" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="48" Grid.Row="2">
+            <Label x:Name="StatusLabel" Content="Status"/>
+        </StatusBar>
         <TabControl x:Name="tabControl" Height="Auto" Width="Auto" Grid.Row="1">
             <TabItem x:Name="CalendarTab" Header="Calendar">
                 <Grid Background="#FFE5E5E5">
@@ -32,7 +34,7 @@
                         <Button x:Name="ChangeObjectButton" Content="Change Objects" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30,0,0" Width="170" Click="ChangeObjectButton_Click"/>
                         <GroupBox x:Name="MapToolBox" Header="Tool" HorizontalAlignment="Left" Width="180" Height="200" Margin="0,5,0,0" Visibility="Hidden">
                             <Grid>
-                                <ComboBox x:Name="MapComboBox" HorizontalAlignment="Center" Margin="5,10,5,0" VerticalAlignment="Top" Width="158">
+                                <ComboBox x:Name="MapComboBox" HorizontalAlignment="Center" Margin="5,10,5,0" VerticalAlignment="Top" Width="158" SelectionChanged="MapComboBox_SelectionChanged">
                                     <ComboBoxItem Content="New Object"/>
                                 </ComboBox>
                                 <Button x:Name="SaveObjectsButton" Content="Save" HorizontalAlignment="Left" Margin="5,150,0,5" VerticalAlignment="Bottom" Width="75" Click="SaveObjectsButton_Click"/>
@@ -46,7 +48,7 @@
                     </ToolBarPanel>
                     <Grid x:Name="MapGrid" Height="Auto" Width="Auto" Background="#FFCEFFAB" Margin="0" MouseDown="TargetObject_MoveStart" MouseMove="TargetObject_Move" MouseUp="TargetObject_MoveEnd">
                         <Rectangle x:Name="ObjectPrefabBody" Visibility="Hidden" Fill="LightGreen" HorizontalAlignment="Left" Margin="{Binding Margin, ElementName=ObjectPrefabLabel}" Width="{Binding ActualWidth, ElementName=ObjectPrefabLabel}" Height="{Binding ActualHeight, ElementName=ObjectPrefabLabel}" RadiusY="16" RadiusX="16" Stroke="Black" VerticalAlignment="Top"/>
-                        <Label x:Name="ObjectPrefabLabel" Visibility="Hidden" Content="ObjectPrefab" VerticalAlignment="Top" Margin="10,10,0,0" Width="100" Height="48"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" />
+                        <Label x:Name="ObjectPrefabLabel" Visibility="Hidden" Content="ObjectPrefab" VerticalAlignment="Top" Margin="696,621,0,0" Width="100" Height="48"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" />
                     </Grid>
                 </Grid>
             </TabItem>
