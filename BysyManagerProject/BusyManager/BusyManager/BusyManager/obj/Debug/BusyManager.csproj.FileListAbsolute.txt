@@ -27,3 +27,7 @@ E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyM
 E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.g.resources
 E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.Properties.Resources.resources
 E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\BusyManager.csproj.GenerateResource.Cache
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\ChangeStateDialog.g.cs
+E:\PortableData\LabWorks\Program engeniring\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\ChangeStateDialog.baml
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\ChangeStateDialog.g.cs
+D:\Archive\_Repository\TeamProject\BysyManagerProject\BusyManager\BusyManager\BusyManager\obj\Debug\ChangeStateDialog.baml

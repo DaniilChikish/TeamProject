@@ -27,7 +27,7 @@ namespace BusyManager
                 SetStatus("Valid saves not found.");
                 TargetObjects = new List<TargetObject>();
             }
-
+            MapDatePicker.SelectedDate = DateTime.Now;
             MapComboBoxUpload();
         }
 
@@ -62,6 +62,7 @@ namespace BusyManager
         {
             foreach (TargetObject item in TargetObjects)
             {
+                RemoveObjectOnMap(item);
                 CreateObjectOnMap(item.IDName, item.GetState(date), item.Margin);
             }
         }
@@ -125,7 +126,6 @@ namespace BusyManager
 
         private void CreateObjectOnMap(string name, TargetObjectState state, Thickness margin)
         {
-
             Rectangle newBody = DuplicatePrefab(ObjectPrefabBody);
             newBody.Name = name + "_body";
             newBody.Margin = margin;
@@ -133,26 +133,43 @@ namespace BusyManager
 
             Label newLabel = DuplicatePrefab(ObjectPrefabLabel);
             newLabel.Name = (name + "_label");
+            newLabel.Margin = margin;
+            newLabel.Visibility = Visibility.Visible;
+
             switch (state)
             {
                 case TargetObjectState.Available:
-                    newLabel.Content = (name + "(Available)");
-                    break;
+                    {
+                        newLabel.Content = (name + "(Available)");
+                        newBody.Fill = System.Windows.Media.Brushes.LightGreen;
+                        //newBody.Stroke = Brushes.Black;
+                        break;
+                    }
                 case TargetObjectState.Busy:
-                    newLabel.Content = (name + "(Bysy)");
-                    break;
+                    {
+                        newLabel.Content = (name + "(Bysy)");
+                        newBody.Fill = System.Windows.Media.Brushes.Red;
+                        break;
+                    }
                 case TargetObjectState.Free:
-                    newLabel.Content = (name + "(Free)");
-                    break;
+                    {
+                        newLabel.Content = (name + "(Free)");
+                        newBody.Fill = System.Windows.Media.Brushes.Green;
+                        break;
+                    }
                 case TargetObjectState.Maintenance:
-                    newLabel.Content = (name + "(Maintanence)");
-                    break;
+                    {
+                        newLabel.Content = (name + "(Maintanence)");
+                        newBody.Fill = System.Windows.Media.Brushes.Orange;
+                        break;
+                    }
                 case TargetObjectState.notAvailable:
-                    newLabel.Content = (name + "(notAvailable)");
-                    break;
+                    {
+                        newLabel.Content = (name + "(notAvailable)");
+                        newBody.Fill = System.Windows.Media.Brushes.White;
+                        break;
+                    }
             }
-            newLabel.Margin = margin;
-            newLabel.Visibility = Visibility.Visible;
 
             MapGrid.Children.Add(newBody);
             MapGrid.Children.Add(newLabel);
@@ -167,40 +184,37 @@ namespace BusyManager
 
         private void TargetObject_MoveStart(object sender, MouseButtonEventArgs e)
         {
-            if (ChangeAllow)
+
+            // Retrieve the coordinate of the mouse position.
+            Point pt = e.GetPosition((UIElement)sender);
+
+            // Clear the contents of the list used for hit test results.
+            hitResultsList.Clear();
+
+            // Set up a callback to receive the hit test result enumeration.
+            System.Windows.Media.VisualTreeHelper.HitTest(MapGrid, null,
+                new System.Windows.Media.HitTestResultCallback(MyHitTestResult),
+                new System.Windows.Media.PointHitTestParameters(pt));
+
+            // Perform actions on the hit test results list.
+            if (hitResultsList.Count > 0)
             {
-                // Retrieve the coordinate of the mouse position.
-                Point pt = e.GetPosition((UIElement)sender);
-
-                // Clear the contents of the list used for hit test results.
-                hitResultsList.Clear();
-
-                // Set up a callback to receive the hit test result enumeration.
-                System.Windows.Media.VisualTreeHelper.HitTest(MapGrid, null,
-                    new System.Windows.Media.HitTestResultCallback(MyHitTestResult),
-                    new System.Windows.Media.PointHitTestParameters(pt));
-
-                // Perform actions on the hit test results list.
-                if (hitResultsList.Count > 0)
+                if (hitResultsList[0].ToString() == "System.Windows.Controls.Grid")
+                    return;
+                if (hitResultsList[0].ToString() == "System.Windows.Controls.TextBlock")
                 {
-                    if (hitResultsList[0].ToString() == "System.Windows.Controls.Grid")
-                        return;
-                    if (hitResultsList[0].ToString() == "System.Windows.Controls.TextBlock")
-                    {
-                        MovedLab = (Label)(((Border)hitResultsList[1]).TemplatedParent);
-                        MovedObj = (Rectangle)(hitResultsList[2]);
-                    }
-                    else
-                    {
-                        MovedLab = (Label)(((Border)hitResultsList[0]).TemplatedParent);
-                        MovedObj = (Rectangle)(hitResultsList[1]);
-                    }
-                    deltaX = e.GetPosition(this.MapGrid).X - MovedLab.Margin.Left;
-                    deltaY = e.GetPosition(this.MapGrid).Y - MovedLab.Margin.Top;
-                    this.Cursor = Cursors.Hand;
-                    TargetOnMove = true;
+                    MovedLab = (Label)(((Border)hitResultsList[1]).TemplatedParent);
+                    MovedObj = (Rectangle)(hitResultsList[2]);
                 }
-
+                else
+                {
+                    MovedLab = (Label)(((Border)hitResultsList[0]).TemplatedParent);
+                    MovedObj = (Rectangle)(hitResultsList[1]);
+                }
+                deltaX = e.GetPosition(this.MapGrid).X - MovedLab.Margin.Left;
+                deltaY = e.GetPosition(this.MapGrid).Y - MovedLab.Margin.Top;
+                this.Cursor = Cursors.Hand;
+                TargetOnMove = true;
             }
         }
         public System.Windows.Media.HitTestResultBehavior MyHitTestResult(System.Windows.Media.HitTestResult result)
@@ -252,6 +266,7 @@ namespace BusyManager
                 ChangeAllow = true;
                 MapToolBox.Visibility = Visibility.Visible;
                 ChangeObjectButton.Content = "End Change";
+                DrawingObjects(DateTime.Now);
             }
             else
             {
@@ -266,6 +281,54 @@ namespace BusyManager
         {
             //MessageBox.Show("MapTab_Loaded");
             DrawingObjects(DateTime.Now);
+        }
+
+        private void MapGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Retrieve the coordinate of the mouse position.
+            Point pt = e.GetPosition((UIElement)sender);
+
+            // Clear the contents of the list used for hit test results.
+            hitResultsList.Clear();
+
+            // Set up a callback to receive the hit test result enumeration.
+            System.Windows.Media.VisualTreeHelper.HitTest(MapGrid, null,
+                new System.Windows.Media.HitTestResultCallback(MyHitTestResult),
+                new System.Windows.Media.PointHitTestParameters(pt));
+
+            // Perform actions on the hit test results list.
+            if (hitResultsList.Count > 0)
+            {
+                TargetObject clickedObj;
+                Label clicked;
+                if (hitResultsList[0].ToString() == "System.Windows.Controls.Grid")
+                    return;
+                if (hitResultsList[0].ToString() == "System.Windows.Controls.TextBlock")
+                {
+                    clicked = (Label)(((Border)hitResultsList[1]).TemplatedParent);
+                }
+                else
+                {
+                    clicked = (Label)(((Border)hitResultsList[0]).TemplatedParent);
+                }
+                clickedObj = TargetObjects.Find(x => x.IDName == clicked.Name.Split('_')[0]);
+                ShowStateDialog(clickedObj);
+            }
+        }
+        public void AddChange(string iDName, TargetTimeState change)
+        {
+            TargetObject clicked = TargetObjects.Find(x => x.IDName == iDName);
+            if (!clicked.InsertChangeOnFree(change))
+            {
+                MessageBox.Show("No free time. Celect another.");
+                ShowStateDialog(clicked);
+            }
+            DrawingObjects((DateTime)MapDatePicker.SelectedDate);
+        }
+        public void ShowStateDialog(TargetObject clicked)
+        {
+            ChangeStateDialog dialog = new ChangeStateDialog(this, clicked.IDName);
+            dialog.Show();
         }
     }
 }

@@ -55,8 +55,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ChangeStateDialog.xaml.cs">
+      <DependentUpon>ChangeStateDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Cryptor.cs" />
     <Compile Include="TargetObject.cs" />
+    <Page Include="ChangeStateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

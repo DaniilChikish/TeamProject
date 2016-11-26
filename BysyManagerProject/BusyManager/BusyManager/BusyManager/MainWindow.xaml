@@ -30,7 +30,7 @@
                         <ColumnDefinition Width="180"/>
                     </Grid.ColumnDefinitions>
                     <ToolBarPanel Height="Auto" Width="Auto" Grid.Column="1">
-                        <DatePicker x:Name="MapDatePicker" HorizontalAlignment="Left" Width="180" SelectedDateChanged="MapDatePicker_OnSelectedDatesChanged"/>
+                        <DatePicker x:Name="MapDatePicker" HorizontalAlignment="Left" Width="180" SelectedDateChanged="MapDatePicker_OnSelectedDatesChanged" FirstDayOfWeek="Monday"/>
                         <Button x:Name="ChangeObjectButton" Content="Change Objects" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30,0,0" Width="170" Click="ChangeObjectButton_Click"/>
                         <GroupBox x:Name="MapToolBox" Header="Tool" HorizontalAlignment="Left" Width="180" Height="200" Margin="0,5,0,0" Visibility="Hidden">
                             <Grid>
@@ -46,7 +46,7 @@
 
                         </GroupBox>
                     </ToolBarPanel>
-                    <Grid x:Name="MapGrid" Height="Auto" Width="Auto" Background="#FFCEFFAB" Margin="0" MouseDown="TargetObject_MoveStart" MouseMove="TargetObject_Move" MouseUp="TargetObject_MoveEnd">
+                    <Grid x:Name="MapGrid" Height="Auto" Width="Auto" Background="#FFCEFFAB" Margin="0" MouseMove="TargetObject_Move" MouseRightButtonDown="TargetObject_MoveStart" MouseRightButtonUp="TargetObject_MoveEnd" MouseLeftButtonDown="MapGrid_MouseLeftButtonDown">
                         <Rectangle x:Name="ObjectPrefabBody" Visibility="Hidden" Fill="LightGreen" HorizontalAlignment="Left" Margin="{Binding Margin, ElementName=ObjectPrefabLabel}" Width="{Binding ActualWidth, ElementName=ObjectPrefabLabel}" Height="{Binding ActualHeight, ElementName=ObjectPrefabLabel}" RadiusY="16" RadiusX="16" Stroke="Black" VerticalAlignment="Top"/>
                         <Label x:Name="ObjectPrefabLabel" Visibility="Hidden" Content="ObjectPrefab" VerticalAlignment="Top" Margin="696,621,0,0" Width="100" Height="48"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" />
                     </Grid>

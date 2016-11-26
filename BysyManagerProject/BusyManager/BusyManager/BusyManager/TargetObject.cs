@@ -32,80 +32,93 @@ namespace BusyManager
         }
         public bool InsertChangeBrut(TargetTimeState change)
         {
-            Stack<TargetTimeState> buffer = new Stack<TargetTimeState>();
-            bool Achieved = false;
-            while (stateChangesList.Count > 0 && !Achieved)
+            if (stateChangesList.Count == 0)
             {
-                if (stateChangesList.Peek().End > change.Begin)
-                    if (stateChangesList.Peek().Begin > change.Begin)
-                        buffer.Push(stateChangesList.Pop());
+                stateChangesList.Push(change);
+                return true;
+            }
+            else
+            {
+                Stack<TargetTimeState> buffer = new Stack<TargetTimeState>();
+                bool Achieved = false;
+                while (stateChangesList.Count > 0 && !Achieved)
+                {
+                    if (stateChangesList.Peek().End > change.Begin)
+                        if (stateChangesList.Peek().Begin > change.Begin)
+                            buffer.Push(stateChangesList.Pop());
+                        else
+                        {
+                            TargetTimeState previous = stateChangesList.Pop();
+                            if (buffer.Count > 0 && (buffer.Peek().Begin < change.End))
+                            {
+                                TargetTimeState next = buffer.Pop();
+                                stateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, change.Begin));
+                                stateChangesList.Push(change);
+                                stateChangesList.Push(new TargetTimeState(next.State, next.Customer, change.End, next.End));
+                            }
+                            else
+                            {
+                                stateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, change.Begin));
+                                stateChangesList.Push(change);
+                            }
+                            Achieved = true;
+                        }
                     else
                     {
-                        TargetTimeState previous = stateChangesList.Pop();
-                        if (buffer.Count > 0&&(buffer.Peek().Begin<change.End))
+                        if (buffer.Count > 0 && (buffer.Peek().Begin < change.End))
                         {
                             TargetTimeState next = buffer.Pop();
-                            stateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, change.Begin));
                             stateChangesList.Push(change);
                             stateChangesList.Push(new TargetTimeState(next.State, next.Customer, change.End, next.End));
                         }
                         else
                         {
-                            stateChangesList.Push(new TargetTimeState(previous.State, previous.Customer, previous.Begin, change.Begin));
                             stateChangesList.Push(change);
                         }
                         Achieved = true;
                     }
-                else
-                {
-                    if (buffer.Count > 0 && (buffer.Peek().Begin < change.End))
-                    {
-                        TargetTimeState next = buffer.Pop();
-                        stateChangesList.Push(change);
-                        stateChangesList.Push(new TargetTimeState(next.State, next.Customer, change.End, next.End));
-                    }
-                    else
-                    {
-                        stateChangesList.Push(change);
-                    }
-                    Achieved = true;
                 }
+                while (buffer.Count > 0)
+                    stateChangesList.Push(buffer.Pop());
+                return true;
             }
-            while (buffer.Count > 0)
-                stateChangesList.Push(buffer.Pop());
-            return true;
         }
         public bool InsertChangeOnFree(TargetTimeState change)
         {
-            Stack<TargetTimeState> buffer = new Stack<TargetTimeState>();
-            bool Achieved = false;
-            bool Inserted = false;
-            while (stateChangesList.Count > 0 && !Achieved)
+            if (stateChangesList.Count == 0)
             {
-                if (stateChangesList.Peek().End > change.Begin)
+                stateChangesList.Push(change);
+                return true;
+            }
+            else
+            {
+                Stack<TargetTimeState> buffer = new Stack<TargetTimeState>();
+                bool Achieved = false;
+                bool Inserted = false;
+                while (stateChangesList.Count > 0 && !Achieved)
                 {
-                    if (stateChangesList.Peek().Begin > change.Begin)
-                        buffer.Push(stateChangesList.Pop());
-                    else
-                        Achieved = true;
-                }
-                else
-                {
-                    if (buffer.Count < 1 || (buffer.Peek().Begin > change.End))
+                    if (stateChangesList.Peek().End > change.Begin)
                     {
-                        stateChangesList.Push(change);
-                        Achieved = true;
-                        Inserted = true;
+                        if (stateChangesList.Peek().Begin > change.Begin)
+                            buffer.Push(stateChangesList.Pop());
+                        else
+                            Achieved = true;
+                    }
+                    else
+                    {
+                        if (buffer.Count < 1 || (buffer.Peek().Begin > change.End))
+                        {
+                            stateChangesList.Push(change);
+                            Achieved = true;
+                            Inserted = true;
+                        }
                     }
                 }
+                while (buffer.Count > 0)
+                    stateChangesList.Push(buffer.Pop());
+                return Inserted;
             }
-            while (buffer.Count > 0)
-                stateChangesList.Push(buffer.Pop());
-            return Inserted;
         }
-
-
-
         public bool ClearChanges()
         {
             stateChangesList.Clear();
